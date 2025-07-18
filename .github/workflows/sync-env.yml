@@ -30,6 +30,7 @@ jobs:
           echo "SHORT_SHA=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_ENV
         
       - name: Trigger Env
+        # NOTE: quotes for commit_message not needed because toJson writes quotes automatically 
         run: |
           curl -X POST https://api.github.com/repos/TourmalineCore/${{ inputs.pelican-env }}/dispatches \
           -H "Accept: application/vnd.github.everest-preview+json" \
@@ -38,7 +39,6 @@ jobs:
           "event_type": "latest-${{ github.event.repository.name }}-image-tag",
           "client_payload": {
             "image_tag": "${{ inputs.image-tag }}",
-            # NOTE: quotes for commit_message not needed because toJson writes quotes automatically 
             "commit_message": ${{ toJson(github.event.head_commit.message) }},
             "repository": "${{ github.event.repository.name }}",
             "short_sha": "${{ env.SHORT_SHA }}",
