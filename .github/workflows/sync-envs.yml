@@ -38,7 +38,8 @@ jobs:
           "event_type": "latest-${{ github.event.repository.name }}-image-tag",
           "client_payload": {
             "image_tag": "${{ inputs.image-tag }}",
-            "commit_message": "${{ github.event.head_commit.message }}",
+            # NOTE: quotes for commit_message not needed because toJson writes quotes automatically 
+            "commit_message": ${{ toJson(github.event.head_commit.message) }},
             "repository": "${{ github.event.repository.name }}",
             "short_sha": "${{ env.SHORT_SHA }}",
             "path_to_values": "${{ inputs.path-to-values }}"
