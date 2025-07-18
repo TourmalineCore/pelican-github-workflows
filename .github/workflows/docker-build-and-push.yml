@@ -28,7 +28,7 @@ on:
         type: string
       # Env is used to write current env to digest name to be able to build several docker images for several envs in one workflow
       env:
-        required: true
+        required: false
         type: string
 
 
@@ -80,7 +80,7 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}-${{ inputs.env }}
+          name: digests-${{ env.PLATFORM_PAIR }}${{ inputs.env && format('-{0}', inputs.env) || '' }}
           path: ${{ runner.temp }}/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -132,7 +132,7 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}-${{ inputs.env }}
+          name: digests-${{ env.PLATFORM_PAIR }}${{ inputs.env && format('-{0}', inputs.env) || '' }}
           path: ${{ runner.temp }}/digests/*
           if-no-files-found: error
           retention-days: 1
