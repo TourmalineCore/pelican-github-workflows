@@ -27,6 +27,7 @@ on:
         required: false
         type: string
       # Env is used to write current env to digest name to be able to build several docker images for several envs in one workflow
+      # Example of env: local
       env:
         required: false
         type: string
