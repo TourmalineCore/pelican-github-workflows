@@ -26,7 +26,7 @@ on:
       build-args:
         required: false
         type: string
-      # Build-env is used to write current env to digest name to be able to build several docker images for several envs in one workflow
+      # build-env is used to write current env to digest name to be able to build several docker images for several envs in one workflow
       # Example of build-env: local
       build-env:
         required: false
