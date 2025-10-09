@@ -81,7 +81,10 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}${{ inputs.build-env && format('-{0}', inputs.build-env) || '' }}
+          # Prefix build-env is needed to explicitly split digests by it's environment and download digests only for current environment
+          # and avoid using local env image in prod
+          # Example of digest name: local-digests-linux-amd64
+          name: ${{ inputs.build-env && format('{0}-', inputs.build-env) || '' }}digests-${{ env.PLATFORM_PAIR }}
           path: ${{ runner.temp }}/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -133,7 +136,10 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}${{ inputs.build-env && format('-{0}', inputs.build-env) || '' }}
+          # Prefix build-env is needed to explicitly split digests by it's environment and download digests only for current environment
+          # and avoid using local env image in prod
+          # Example of digest name: local-digests-linux-amd64
+          name: ${{ inputs.build-env && format('{0}-', inputs.build-env) || '' }}digests-${{ env.PLATFORM_PAIR }}
           path: ${{ runner.temp }}/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -148,7 +154,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/digests
-          pattern: digests-*
+          # Prefix build-env is needed to explicitly split digests by it's environment and download digests only for current environment
+          # and avoid using local env image in prod
+          # Example of digest name: local-digests-linux-amd64
+          pattern: ${{ inputs.build-env && format('{0}-', inputs.build-env) || '' }}digests-*
           merge-multiple: true
 
       - name: Log in to GitHub Container Registry
